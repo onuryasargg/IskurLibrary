@@ -1,0 +1,32 @@
+﻿@{
+    System.Data.DataRowCollection books = (System.Data.DataRowCollection)ViewData["books"];
+}
+<script>
+    function Delete(id) {
+        if (confirm("Emin misiniz?") == true) {
+            location.assign("@Url.Action("Delete","Books")/" + id.toString());
+        }
+    }
+</script>
+<a href="~/books/add">Ekle</a>
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Adı</th>
+            <th></th>
+        </tr>
+    </thead>
+    @foreach (Library.Models.Library.BooksRow bookRow in books)
+    {
+        <tr>
+            <td>
+                <a href="~/books/update/@bookRow.Id.ToString()">@bookRow.Id.ToString()</a>
+            </td>
+            <td>@bookRow.BookName</td>
+            <td>
+                <button onclick="Delete(@bookRow.Id)">Sil</button>
+            </td>
+        </tr>
+    }
+</table>

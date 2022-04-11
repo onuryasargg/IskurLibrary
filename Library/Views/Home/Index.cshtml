@@ -1,0 +1,67 @@
+﻿
+@{
+    Layout = null;
+    System.Data.DataRowCollection results;
+    string keywords = "";
+
+    if (ViewData["keywords"] != null)
+    {
+        keywords = (string)ViewData["keywords"];
+    }
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Kütüphane</title>
+    <link href="~/Content/Site.css" rel="stylesheet" />
+</head>
+<body>
+    <form action="~/home/checklogin" method="post">
+        <input type="text" name="userName" />
+        <input type="password" name="password" />
+        <input type="submit" value="GİRİŞ" />
+    </form>
+    <a href="~/home/login">Giriş</a>
+    <form action="~/" method="post">
+        <input type="text" name="keywords" value="@keywords" />
+        <input type="submit" value="ARA" />
+    </form>
+    @if (ViewData["results"] != null)
+    {
+        results = (System.Data.DataRowCollection)ViewData["results"];
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Kitap</th>
+                    <th>Yazar</th>
+                    <th>Mahlas</th>
+                </tr>
+            </thead>
+            @foreach (Library.Models.Library.SearchResultsRow resultRow in results)
+            {
+                <tr>
+                    <td>@resultRow.Book.ToString()</td>
+                    <td>@resultRow.BookName</td>
+                    <td>
+                        <span>@resultRow.WriterName</span>
+                        @if (resultRow.IsWriterSurnameNull() == false)
+                        {
+                            <span>@resultRow.WriterSurname</span>
+                        }
+                    </td>
+                    <td>
+                        @if (resultRow.IsWriterAKANull() == false)
+                        {
+                            <span>@resultRow.WriterAKA</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+</body>
+</html>

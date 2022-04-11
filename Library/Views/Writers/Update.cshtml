@@ -1,0 +1,28 @@
+﻿@{
+    Library.Models.Library.WritersRow writerRow = (Library.Models.Library.WritersRow)ViewData["writerRow"];
+    string surname = "";
+    string AKA = "";
+
+    if (writerRow.IsWriterSurnameNull() == false)
+    {
+        surname = writerRow.WriterSurname;
+    }
+    if (writerRow.IsWriterAKANull() == false)
+    {
+        AKA = writerRow.WriterAKA;
+    }
+}
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<form action="~/writers/processwriter" method="post">
+    <input type="text" name="writerName" id="writerName" placeholder="Adı" data-val="true" data-val-required="Bu alan gerekli" maxlength="100" value="@writerRow.WriterName" />
+    <span class="field-validation-valid" data-valmsg-for="writerName" data-valmsg-replace="true"></span>
+    <input type="text" name="surname" placeholder="Soyadı" maxlength="50" value="@surname" />
+    <input type="text" name="AKA" placeholder="Mahlas" maxlength="50" value="@AKA" />
+    <input type="hidden" name="id" value="@writerRow.Id" />
+    <input type="submit" value="TAMAM" />
+</form>
+@if (ViewData["error"] != null)
+{
+    <span>@ViewData["error"]</span>
+}

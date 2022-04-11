@@ -1,0 +1,45 @@
+﻿@{
+    System.Data.DataRowCollection writers = (System.Data.DataRowCollection)ViewData["writers"];
+}
+<script>
+    function Delete(id) {
+        if (confirm("Emin misiniz?") == true) {
+            location.assign("@Url.Action("Delete","Writers")/" + id.toString());
+        }
+    }
+</script>
+<a href="~/writers/add">Ekle</a>
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Adı</th>
+            <th>Mahlas</th>
+            <th></th>
+        </tr>
+    </thead>
+    @foreach (Library.Models.Library.WritersRow writerRow in writers)
+    {
+        <tr>
+            <td>
+                <a href="~/writers/update/@writerRow.Id.ToString()">@writerRow.Id.ToString()</a>
+            </td>
+            <td>
+                <span>@writerRow.WriterName</span>
+                @if (writerRow.IsWriterSurnameNull() == false)
+                {
+                    <span>@writerRow.WriterSurname</span>
+                }
+            </td>
+            <td>
+                @if (writerRow.IsWriterAKANull() == false)
+                {
+                    <span>@writerRow.WriterAKA</span>
+                }
+            </td>
+            <td>
+                <button onclick="Delete(@writerRow.Id)">Sil</button>
+            </td>
+        </tr>
+    }
+</table>

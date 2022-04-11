@@ -1,0 +1,50 @@
+﻿@{
+    Library.Models.Library.MemberDetailsRow memberRow = (Library.Models.Library.MemberDetailsRow)ViewData["memberRow"];
+    string male = "";
+    string female = "";
+    string banned = "";
+
+    if (memberRow.IsGenderNull() == false)
+    {
+        if (memberRow.Gender == false)
+        {
+            female = "checked";
+        }
+        else
+        {
+            male = "checked";
+        }
+    }
+    if (memberRow.Banned == true)
+    {
+        banned = "checked";
+    }
+}
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<form action="~/members/processmember" method="post">
+    <input type="number" name="memberId" id="memberId" placeholder="T. C. Kimlik No" data-val="true" data-val-required="Bu alan gerekli" maxlength="11" value="@memberRow.IdNo.ToString()" />
+    <span class="field-validation-valid" data-valmsg-for="memberId" data-valmsg-replace="true"></span>
+    <input type="text" name="memberName" id="memberName" placeholder="Adı" data-val="true" data-val-required="Bu alan gerekli" maxlength="50" value="@memberRow.MemberName" />
+    <span class="field-validation-valid" data-valmsg-for="memberName" data-valmsg-replace="true"></span>
+    <input type="text" name="surname" id="surname" placeholder="Soyadı" data-val="true" data-val-required="Bu alan gerekli" maxlength="50" value="@memberRow.MemberSurname" />
+    <span class="field-validation-valid" data-valmsg-for="surname" data-valmsg-replace="true"></span>
+    <input type="number" name="phone" id="phone" placeholder="Telefon" data-val="true" data-val-required="Bu alan gerekli" maxlength="10" value="@memberRow.Phone.ToString()" />
+    <span class="field-validation-valid" data-valmsg-for="phone" data-valmsg-replace="true"></span>
+    <input type="email" name="eMail" id="eMail" placeholder="E-posta" data-val="true" data-val-required="Bu alan gerekli" data-val-email="Geçersiz e-posta" maxlength="100" value="@memberRow.MemberEMail" />
+    <span class="field-validation-valid" data-valmsg-for="eMail" data-valmsg-replace="true"></span>
+    <label for="maleRadio">Erkek</label>
+    <input type="radio" name="gender" value="true" id="maleRadio" @male />
+    <label for="femaleRadio">Kız</label>
+    <input type="radio" name="gender" value="false" id="femaleRadio" @female />
+    <label for="banned">Yasaklı</label>
+    <input type="checkbox" name="banned" value="true" @banned />
+    <textarea name="address" id="address" data-val="true" data-val-required="Bu alan gerekli" maxlength="200">@memberRow.MemberAddress</textarea>
+    <span class="field-validation-valid" data-valmsg-for="address" data-valmsg-replace="true"></span>
+    <input type="hidden" name="originalId" value="@memberRow.IdNo.ToString()" />
+    <input type="submit" value="TAMAM" />
+</form>
+@if (ViewData["error"] != null)
+{
+    <span>@ViewData["error"]</span>
+}

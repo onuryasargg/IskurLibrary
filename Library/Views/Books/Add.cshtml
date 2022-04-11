@@ -1,0 +1,31 @@
+﻿@{
+    System.Data.DataRowCollection writers = (System.Data.DataRowCollection)ViewData["writers"];
+    string writerName;
+}
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<form action="~/books/processnewbook" method="post">
+    <input type="text" name="bookName" id="bookName" placeholder="Kitap adı" data-val="true" data-val-required="Bu alan gerekli" maxlength="100" />
+    <span class="field-validation-valid" data-valmsg-for="bookName" data-valmsg-replace="true"></span>
+    <input type="text" name="keywords" placeholder="Anahtar kelimeler" maxlength="100" />
+    <select name="writer">
+        @foreach (Library.Models.Library.WritersRow writerRow in writers)
+        {
+            writerName = writerRow.WriterName;
+            if (writerRow.IsWriterSurnameNull() == false)
+            {
+                writerName = writerRow.WriterName + " " + writerRow.WriterSurname;
+            }
+            if (writerRow.IsWriterAKANull() == false)
+            {
+                writerName = writerName + " (" + writerRow.WriterAKA + ")";
+            }
+            <option value="@writerRow.Id.ToString()">@writerName</option>
+        }
+    </select>
+    <input type="submit" value="TAMAM" />
+</form>
+@if (ViewData["error"] != null)
+{
+    <span>@ViewData["error"]</span>
+}

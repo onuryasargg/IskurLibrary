@@ -1,0 +1,17 @@
+﻿<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<form action="~/users/processnewuser" method="post">
+    <input type="text" name="userName" id="userName" placeholder="Kullanıcı adı" data-val="true" data-val-required="Bu alan gerekli" maxlength="50" />
+    <span class="field-validation-valid" data-valmsg-for="userName" data-valmsg-replace="true"></span>
+    <input type="password" name="password" id="password" placeholder="Şifre" data-val="true" data-val-required="Bu alan gerekli" />
+    <span class="field-validation-valid" data-valmsg-for="password" data-valmsg-replace="true"></span>
+    <input type="password" placeholder="Şifre (tekrar)" id="password2" data-val="true" data-val-equalto="Şifreler aynı değil" data-val-equalto-other="#password" />
+    <span class="field-validation-valid" data-valmsg-for="password2" data-valmsg-replace="true"></span>
+    <input type="email" name="eMail" id="eMail" placeholder="E-Posta" data-val="true" data-val-required="Bu alan gerekli" data-val-email="Geçersiz e-posta adresi" maxlength="100">
+    <span class="field-validation-valid" data-valmsg-for="eMail" data-valmsg-replace="true"></span>
+    <input type="submit" value="TAMAM" />
+</form>
+@if (ViewData["error"] != null)
+{
+    <span>@ViewData["error"]</span>
+}
